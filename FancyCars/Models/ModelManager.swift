@@ -31,47 +31,47 @@ class ModelManagerImpl : ModelManager{
     //func loadCars(finished : @escaping GetRepos) {
     func loadCars() {
         print("calling getRepos!!")
-//        self.carsService.getCars().map({ (cars:[Car]) -> [Car] in
-//            return cars
-//        }).flatMap({ (cars: [Car]) -> (Observable<[Car]>) in
-//            return cars.flatMap({ (car: Car) -> Observable<Car> in
-//                return self.carsService.getAvailabilitySingle(id: car.id).map({ (a: Availability) -> Car in
-//                    car.make = a.available
-//                    return car
-//                })
-//            }).toArray()
-//        })
-        
-        
-        
-        /// todo: make sure we are on a background thread
-        Observable.zip(self.carsService.getCars(), self.carsService.getAvailability()) {
-            return ($0, $1)
-        }.subscribe(
-            onNext: { [weak self] (cars, avails) in
+        self.carsService.getCars().map({ (cars:[Car]) -> [Car] in
+            return cars
+        }).flatMap({ (cars: [Car]) -> (Observable<[Car]>) in
+            return Observable.from(cars).flatMap({ (car: Car) -> Observable<Car> in
+                print("came inside of the second flat map")
+                return self.carsService.getAvailabilitySingle(id: car.id).flatMap({(av: Availability) -> (Observable<Car>) in
+                    car.availability = av
+                    return Observable.just(car)
+                })
+                //return Observable.just(car)
+            }).toArray()
+        }).subscribe(
+            onNext : { [weak self] cars in
                 print(cars)
-                print(avails)
-                /// update the Realm DataBase with these objects
-                let realm = try! Realm()
-                try! realm.write {
-                    realm.add(cars, update: true)
-                    realm.add(avails, update: true)
-                }
             },
             onError: { error in
                 print("\(error.localizedDescription)")
             }
         ).disposed(by: bag)
+
         
         
-//        self.carsService.getCars().subscribe(
-//            onNext : { [weak self] cars in
+        /// todo: make sure we are on a background thread
+//        Observable.zip(self.carsService.getCars(), self.carsService.getAvailability()) {
+//            return ($0, $1)
+//        }.subscribe(
+//            onNext: { [weak self] (cars, avails) in
 //                print(cars)
+//                print(avails)
+//                /// update the Realm DataBase with these objects
+//                let realm = try! Realm()
+//                try! realm.write {
+//                    realm.add(cars, update: true)
+//                    realm.add(avails, update: true)
+//                }
 //            },
 //            onError: { error in
 //                print("\(error.localizedDescription)")
 //            }
 //        ).disposed(by: bag)
+
     }
     
     func getSortedCars(sortOrder: String) -> Observable<(AnyRealmCollection<Car>, RealmChangeset?)> {
