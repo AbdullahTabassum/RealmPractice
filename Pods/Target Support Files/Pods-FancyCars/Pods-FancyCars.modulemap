@@ -1,0 +1,6 @@
+framework module Pods_FancyCars {
+  umbrella header "Pods-FancyCars-umbrella.h"
+
+  export *
+  module * { export * }
+}
