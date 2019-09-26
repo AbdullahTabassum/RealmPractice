@@ -19,6 +19,9 @@ protocol ModelManager {
 }
 
 class ModelManagerImpl : ModelManager{
+
+    /// as we don't want to create new observables every time, we cache observables and store them by sort priority
+    private var changeSetObservables: [String: Observable<(AnyRealmCollection<Car>, RealmChangeset?)>] = [:]
     
     var bag : DisposeBag = DisposeBag();
     
@@ -30,7 +33,7 @@ class ModelManagerImpl : ModelManager{
     
     //func loadCars(finished : @escaping GetRepos) {
     func loadCars() {
-        print("calling getRepos!!")
+        /// this only gets called once so we don't have to worry about large amount of observables remaining in  DisposeBag
         self.carsService.getCars().map({ (cars:[Car]) -> [Car] in
             return cars
         }).flatMap({ (cars: [Car]) -> (Observable<[Car]>) in
@@ -45,14 +48,13 @@ class ModelManagerImpl : ModelManager{
         }).subscribe(
             onNext : { [weak self] cars in
                 print(cars)
+                self?.insertCarsIntoDB(cars: cars)
             },
             onError: { error in
                 print("\(error.localizedDescription)")
             }
         ).disposed(by: bag)
 
-        
-        
         /// todo: make sure we are on a background thread
 //        Observable.zip(self.carsService.getCars(), self.carsService.getAvailability()) {
 //            return ($0, $1)
@@ -73,11 +75,25 @@ class ModelManagerImpl : ModelManager{
 //        ).disposed(by: bag)
 
     }
+
+    private func insertCarsIntoDB(cars: [Car]) {
+        let realm = try! Realm()
+        try! realm.write {
+            realm.add(cars, update: true)
+        }
+    }
     
     func getSortedCars(sortOrder: String) -> Observable<(AnyRealmCollection<Car>, RealmChangeset?)> {
         //let resultsBag = DisposeBag()
-        let realm = try! Realm()
-        let repos = realm.objects(Car.self).sorted(byKeyPath: sortOrder, ascending: false)
-        return Observable.changeset(from:repos)
+        /// we should reuse observables if they have already been created
+        if let result = changeSetObservables[sortOrder] {
+            return result.share()
+        } else {
+            let realm = try! Realm()
+            let repos = realm.objects(Car.self).sorted(byKeyPath: sortOrder, ascending: false)
+            let ret = Observable.changeset(from:repos).share()
+            changeSetObservables[sortOrder] = ret
+            return ret
+        }
     }
 }

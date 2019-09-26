@@ -10,10 +10,19 @@ import Foundation
 import RxSwift
 
 protocol FancyCarsViewModel {
-    func getCarCollection()
     func updateSortOrder(criteria: String)
+    var fancyCars: Variable<[FancyCars]>{get set}
 }
 
+struct FancyCars {
+    init(car: Car) {
+        self.car = car
+    }
+    var car: Car
+    var isAvailable: Bool {
+        return car.availability?.available == "Available"
+    }
+}
 
 class FancyCarsViewModelImpl: FancyCarsViewModel {
     var bag : DisposeBag = DisposeBag();
@@ -21,35 +30,23 @@ class FancyCarsViewModelImpl: FancyCarsViewModel {
     
     init(model: ModelManager) {
         modelManager = model
-    }
-    
-    static let orderCriterias = ["name", "make", "model", "year"]
-    
-    struct FancyCars {
-        var car: Car
-        private var availability: Availability
-        var isAvailable: Bool {
-            return availability.available == "Available"
-        }
-    }
-    
-    var cars : Variable<[FancyCars]> = Variable<[FancyCars]>([])
-    
-    func getCarCollection() {
-        /// trigger the
         modelManager.loadCars()
     }
     
+    static let orderCriterias = ["name", "make", "model", "year"]
+
+    var fancyCars : Variable<[FancyCars]> = Variable<[FancyCars]>([])
+
     func updateSortOrder(criteria: String) {
         /// get availabity for each one
         modelManager.getSortedCars(sortOrder: criteria)
             .subscribe(
                 onNext: { [weak self] results, changes in
                     print("we came here 1")
-                    let test = 45
+                    print(results)
+                    print(changes)
                     print("we came here 2")
-                    //print(results)
-                    //print(changes)
+                    self?.fancyCars.value = [FancyCars(car: Car())]
                     
             }).disposed(by: bag)
     }
