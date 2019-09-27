@@ -126,7 +126,6 @@ class FancyCarServiceLocal: FancyCarService {
                 handler(Result<[Availability]>.fail(CustomError.parsing))
             }
         }
-
     }
     
     private func getAvailabilitySingle(handler: @escaping AvailHandlerSingle) {

@@ -22,6 +22,7 @@
 		18DF08CC233C36F9002B67DB /* FancyCarsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DF08CB233C36F9002B67DB /* FancyCarsViewModel.swift */; };
 		18DF08CE233C5953002B67DB /* availabilities.json in Resources */ = {isa = PBXBuildFile; fileRef = 18DF08CD233C5953002B67DB /* availabilities.json */; };
 		18DF08D0233CCFF2002B67DB /* FancyCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DF08CF233CCFF2002B67DB /* FancyCollectionView.swift */; };
+		18DF08D2233E2B6C002B67DB /* FancyCollectionCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DF08D1233E2B6C002B67DB /* FancyCollectionCellView.swift */; };
 		A0DDA30E1448A197C8491AA6 /* Pods_FancyCars.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 051D2F4CECDF3D0B4DD603E7 /* Pods_FancyCars.framework */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +47,7 @@
 		18DF08CB233C36F9002B67DB /* FancyCarsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyCarsViewModel.swift; sourceTree = "<group>"; };
 		18DF08CD233C5953002B67DB /* availabilities.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = availabilities.json; sourceTree = "<group>"; };
 		18DF08CF233CCFF2002B67DB /* FancyCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyCollectionView.swift; sourceTree = "<group>"; };
+		18DF08D1233E2B6C002B67DB /* FancyCollectionCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyCollectionCellView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				18DF08CF233CCFF2002B67DB /* FancyCollectionView.swift */,
+				18DF08D1233E2B6C002B67DB /* FancyCollectionCellView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -237,7 +240,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-FancyCars/Pods-FancyCars-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-FancyCars/Pods-FancyCars-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
@@ -262,7 +265,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FancyCars/Pods-FancyCars-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FancyCars/Pods-FancyCars-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9B52B7E97D350548A138E9C3 /* [CP] Check Pods Manifest.lock */ = {
@@ -296,6 +299,7 @@
 				187D688D233C04F3002A8E62 /* AppDelegate.swift in Sources */,
 				187D68A9233C08E8002A8E62 /* FancyCarService.swift in Sources */,
 				187D68A4233C06B5002A8E62 /* Car.swift in Sources */,
+				18DF08D2233E2B6C002B67DB /* FancyCollectionCellView.swift in Sources */,
 				187D68A6233C0831002A8E62 /* Availability.swift in Sources */,
 				187D68A2233C0663002A8E62 /* ModelManager.swift in Sources */,
 				187D68B0233C11B2002A8E62 /* Parser.swift in Sources */,

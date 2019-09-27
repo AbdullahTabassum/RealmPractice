@@ -43,7 +43,6 @@ class ModelManagerImpl : ModelManager{
                     car.availability = av
                     return Observable.just(car)
                 })
-                //return Observable.just(car)
             }).toArray()
         }).subscribe(
             onNext : { [weak self] cars in
@@ -84,14 +83,15 @@ class ModelManagerImpl : ModelManager{
     }
     
     func getSortedCars(sortOrder: String) -> Observable<(AnyRealmCollection<Car>, RealmChangeset?)> {
-        //let resultsBag = DisposeBag()
         /// we should reuse observables if they have already been created
-        if let result = changeSetObservables[sortOrder] {
-            return result.share()
+        ///sorting with realm api is not working, so will handle sorting in the view model
+        let overrideSortOrder = "name"
+        if let result = changeSetObservables[overrideSortOrder] {
+            return result.share(replay: 1)
         } else {
             let realm = try! Realm()
-            let repos = realm.objects(Car.self).sorted(byKeyPath: sortOrder, ascending: false)
-            let ret = Observable.changeset(from:repos).share()
+            let cars = realm.objects(Car.self).sorted(byKeyPath: overrideSortOrder, ascending: true)
+            let ret = Observable.changeset(from:cars).share(replay: 1)
             changeSetObservables[sortOrder] = ret
             return ret
         }

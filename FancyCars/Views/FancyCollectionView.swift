@@ -12,97 +12,76 @@ import RxCocoa
 import RxSwift
 
 class FancyCollectionView: UIView {
-    /// TODO: remove this data to another class
-    let pickerData = ["name", "availability"]
-    
-    let pickerView : UIPickerView!
-    
-    public var tableView : UITableView!
-    
+    private var fancyCarViewModel: FancyCarsViewModel
     fileprivate var bag = DisposeBag()
     
-    weak var delegate : UITableViewDelegate!
+    public var pickerObservable: Observable<(row: Int, component: Int)> {
+        return pickerView.rx.itemSelected.share(replay: 1)
+    }
     
+    let pickerView : UIPickerView = {
+        let pickerView = UIPickerView()
+        pickerView.translatesAutoresizingMaskIntoConstraints = false
+        pickerView.backgroundColor = UIColor.brown
+        return pickerView
+    }()
+
+    lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.tableFooterView = UIView(frame: .zero)
+        tableView.estimatedRowHeight = 100
+        tableView.register(FancyCollectionCellView.self, forCellReuseIdentifier: FancyCollectionCellView.identifier)
+        return tableView
+    }()
+
     required init(coder aDecoder: NSCoder) {
         fatalError("This class does not support NSCoding")
     }
     
-    override init( frame: CGRect ) {
-        //todo: use injection here
-        self.pickerView = UIPickerView()
-        self.tableView = UITableView()
-        
+    init( frame: CGRect, viewModel: FancyCarsViewModel ) {
+        /// todo: shold use injection here
+        fancyCarViewModel = viewModel
         super.init(frame: frame)
         
         self.setUpViewLayout()
-        
+        self.setupPicker()
         self.setUpTableView()
-        self.pickerView.delegate = self
-        self.pickerView.dataSource = self
     }
     
-    func configure( del : UITableViewDelegate ) {
+    private func setupPicker() {
+        Observable.just(fancyCarViewModel.orderCriterias).bind(to: pickerView.rx.itemTitles) { _, item in
+            return "\(item)"
+        }
         
-        self.delegate = del
-        self.tableView.delegate = self.delegate
+        pickerView.rx.itemSelected.subscribe(onNext: {[weak self] (row, value) in
+            NSLog("selected: \(row)")
+            let crit = self?.fancyCarViewModel.orderCriterias[row]
+            self?.fancyCarViewModel.updateSortOrder(criteria: crit ?? "make")
+        }).disposed(by: bag)
+    }
+    
+    private func setUpTableView() {
+        self.fancyCarViewModel.fancyCars.asObservable().bind(to: self.tableView.rx.items(cellIdentifier: FancyCollectionCellView.identifier)) { index, model, cell  in
+                if let cellNew = cell as? FancyCollectionCellView {
+                    cellNew.textLabel?.text = model.name
+                } else {
+                    print("error casting")
+                }
+        }.disposed(by: bag)
     }
     
     private func setUpViewLayout() {
-        
-        //specifiy the dimensions and positions for the search bar and table view
-        pickerView.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(pickerView);
-        
-        self.addConstraint(NSLayoutConstraint(item: pickerView, attribute: .width, relatedBy: .equal, toItem: self, attribute: .width, multiplier: 1.0, constant: 0.0));
-        
-        self.addConstraint(NSLayoutConstraint(item: pickerView, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 0.0, constant: 50.0));
-        
-        self.addConstraint(NSLayoutConstraint(item: pickerView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0.0));
-        
-        self.addConstraint(NSLayoutConstraint(item: pickerView, attribute: .left, relatedBy: .equal, toItem: self, attribute: .left, multiplier: 1.0, constant: 0.0));
-        
-        //tableView setup
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.tableFooterView = UIView(frame: .zero)
-        self.addSubview(tableView)
-        
-        self.addConstraint(NSLayoutConstraint(item: tableView, attribute: .top, relatedBy: .equal, toItem: pickerView, attribute: .bottom, multiplier: 1.0, constant: 0.0));
-        
-        self.addConstraint(NSLayoutConstraint(item: tableView, attribute: .left, relatedBy: .equal, toItem: self, attribute: .left, multiplier: 1.0, constant: 0.0));
-        
-        self.addConstraint(NSLayoutConstraint(item: tableView, attribute: .width, relatedBy: .equal, toItem: self, attribute: .width, multiplier: 1.0, constant: 0.0));
-        
-        self.addConstraint(NSLayoutConstraint(item: tableView, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 1.0, constant: -70.0 ));
-        
-    }
-    
-    func setUpTableView() {
-        
-        //register a table view cell
-        //RepoTableCell.register(with: tableView)
-        
-        self.tableView.estimatedRowHeight = 100
-        self.tableView.rowHeight = UITableViewAutomaticDimension
-        
-        self.tableView.delegate = self.delegate
-        
-    }
-    
-}
+        pickerView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        pickerView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        pickerView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor).isActive = true
 
-extension FancyCollectionView: UIPickerViewDelegate, UIPickerViewDataSource {
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
+        self.addSubview(tableView)
+        tableView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        tableView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: pickerView.topAnchor).isActive = true
     }
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickerData.count
-    }
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickerData[row]
-    }
-//    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-//        self.txt_pickUpData.text = pickerData[row]
-//    }
 }
 
