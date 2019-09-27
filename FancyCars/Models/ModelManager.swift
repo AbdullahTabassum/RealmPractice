@@ -53,26 +53,6 @@ class ModelManagerImpl : ModelManager{
                 print("\(error.localizedDescription)")
             }
         ).disposed(by: bag)
-
-        /// todo: make sure we are on a background thread
-//        Observable.zip(self.carsService.getCars(), self.carsService.getAvailability()) {
-//            return ($0, $1)
-//        }.subscribe(
-//            onNext: { [weak self] (cars, avails) in
-//                print(cars)
-//                print(avails)
-//                /// update the Realm DataBase with these objects
-//                let realm = try! Realm()
-//                try! realm.write {
-//                    realm.add(cars, update: true)
-//                    realm.add(avails, update: true)
-//                }
-//            },
-//            onError: { error in
-//                print("\(error.localizedDescription)")
-//            }
-//        ).disposed(by: bag)
-
     }
 
     private func insertCarsIntoDB(cars: [Car]) {
