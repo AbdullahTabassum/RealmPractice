@@ -49,15 +49,15 @@ class FancyCarsViewModelImpl: FancyCarsViewModel {
         modelManager.loadCars()
     }
     
-    let orderCriterias = ["name", "availability"]
+    let orderCriterias = ["Name", "Availability"]
     
-    private let orderCriteriaKeyPaths: [String: KeyPath<FancyCars, String>] = ["name": \FancyCars.name, "availability":\FancyCars.availability]
+    private let orderCriteriaKeyPaths: [String: KeyPath<FancyCars, String>] = ["Name": \FancyCars.name, "Availability":\FancyCars.availability]
 
     var fancyCars : Variable<[FancyCars]> = Variable<[FancyCars]>([])
     
     func updateSortOrder(criteria: String) {
-        
-
+        /// was initially aiming to do the sorting in the model with Realm, but it seems to be broken
+        /// so i am sorting the data in the view model here below
         modelManager.getSortedCars(sortOrder: criteria)
             .subscribe(
                 onNext: { [weak self] results, changes in

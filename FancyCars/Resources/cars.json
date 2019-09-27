@@ -4,7 +4,7 @@
   "img":"http://myfancycar/image",
   "name":"Fusion",
   "make":"Ford",
-  "model":"MyModel",
+  "model":"SEL",
   "year":2009
   },
   {
@@ -12,7 +12,7 @@
   "img":"http://myfancycar/image",
   "name":"Laser",
   "make":"Audi",
-  "model":"MyModel",
+  "model":"SE",
   "year":2001
   },
   {
@@ -20,7 +20,7 @@
   "img":"http://myfancycar/image",
   "name":"M3",
   "make":"BMW",
-  "model":"MyModel",
+  "model":"AWD SEL",
   "year":2003
   },
   {
@@ -28,7 +28,7 @@
   "img":"http://myfancycar/image",
   "name":"Jetta",
   "make":"Volkswagon",
-  "model":"MyModel",
+  "model":"Sport",
   "year":2004
   },
   {
@@ -36,7 +36,7 @@
   "img":"http://myfancycar/image",
   "name":"Silverado",
   "make":"Chevrolet",
-  "model":"MyModel",
+  "model":"Diesel",
   "year":2008
   },
   {
@@ -44,7 +44,7 @@
   "img":"http://myfancycar/image",
   "name":"Accord",
   "make":"Honda",
-  "model":"MyModel",
+  "model":"SEL",
   "year":2010
   },
   {
@@ -52,7 +52,7 @@
   "img":"http://myfancycar/image",
   "name":"Camry",
   "make":"Toyota",
-  "model":"MyModel",
+  "model":"RWD",
   "year":2005
   },
   {
@@ -60,7 +60,7 @@
   "img":"http://myfancycar/image",
   "name":"Navigator",
   "make":"Lincoln",
-  "model":"MyModel",
+  "model":"FWD",
   "year":2020
   },
   {
@@ -68,7 +68,7 @@
   "img":"http://myfancycar/image",
   "name":"Cherokee",
   "make":"Jeep",
-  "model":"MyModel",
+  "model":"EDV",
   "year":2005
   },
   {
@@ -76,7 +76,7 @@
   "img":"http://myfancycar/image",
   "name":"Imprenza",
   "make":"Subaru",
-  "model":"MyModel",
+  "model":"EVO",
   "year":2015
   }
   ]

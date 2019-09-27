@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		187D688D233C04F3002A8E62 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187D688C233C04F3002A8E62 /* AppDelegate.swift */; };
-		187D688F233C04F3002A8E62 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187D688E233C04F3002A8E62 /* ViewController.swift */; };
+		187D688F233C04F3002A8E62 /* FancyCarsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187D688E233C04F3002A8E62 /* FancyCarsViewController.swift */; };
 		187D6892233C04F3002A8E62 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 187D6890233C04F3002A8E62 /* Main.storyboard */; };
 		187D6894233C04F3002A8E62 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 187D6893233C04F3002A8E62 /* Assets.xcassets */; };
 		187D6897233C04F3002A8E62 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 187D6895233C04F3002A8E62 /* LaunchScreen.storyboard */; };
@@ -32,7 +32,7 @@
 		051D2F4CECDF3D0B4DD603E7 /* Pods_FancyCars.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FancyCars.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		187D6889233C04F3002A8E62 /* FancyCars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FancyCars.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		187D688C233C04F3002A8E62 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		187D688E233C04F3002A8E62 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		187D688E233C04F3002A8E62 /* FancyCarsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyCarsViewController.swift; sourceTree = "<group>"; };
 		187D6891233C04F3002A8E62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		187D6893233C04F3002A8E62 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		187D6896233C04F3002A8E62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -88,7 +88,6 @@
 				187D68A0233C0650002A8E62 /* Models */,
 				187D689E233C0627002A8E62 /* Views */,
 				187D688C233C04F3002A8E62 /* AppDelegate.swift */,
-				187D688E233C04F3002A8E62 /* ViewController.swift */,
 				187D6890233C04F3002A8E62 /* Main.storyboard */,
 				187D6893233C04F3002A8E62 /* Assets.xcassets */,
 				187D6895233C04F3002A8E62 /* LaunchScreen.storyboard */,
@@ -100,6 +99,7 @@
 		187D689E233C0627002A8E62 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				187D688E233C04F3002A8E62 /* FancyCarsViewController.swift */,
 				18DF08CF233CCFF2002B67DB /* FancyCollectionView.swift */,
 				18DF08D1233E2B6C002B67DB /* FancyCollectionCellView.swift */,
 			);
@@ -293,7 +293,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				187D688F233C04F3002A8E62 /* ViewController.swift in Sources */,
+				187D688F233C04F3002A8E62 /* FancyCarsViewController.swift in Sources */,
 				18DF08CC233C36F9002B67DB /* FancyCarsViewModel.swift in Sources */,
 				18DF08D0233CCFF2002B67DB /* FancyCollectionView.swift in Sources */,
 				187D688D233C04F3002A8E62 /* AppDelegate.swift in Sources */,

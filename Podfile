@@ -13,7 +13,6 @@ target 'FancyCars' do
     pod 'SwinjectStoryboard', '1.1.2'
     pod 'RealmSwift'
     pod 'RxRealm'
-
-
+    
 
 end

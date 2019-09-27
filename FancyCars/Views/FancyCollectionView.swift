@@ -31,6 +31,7 @@ class FancyCollectionView: UIView {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.tableFooterView = UIView(frame: .zero)
         tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableViewAutomaticDimension
         tableView.register(FancyCollectionCellView.self, forCellReuseIdentifier: FancyCollectionCellView.identifier)
         return tableView
     }()
@@ -64,7 +65,11 @@ class FancyCollectionView: UIView {
     private func setUpTableView() {
         self.fancyCarViewModel.fancyCars.asObservable().bind(to: self.tableView.rx.items(cellIdentifier: FancyCollectionCellView.identifier)) { index, model, cell  in
                 if let cellNew = cell as? FancyCollectionCellView {
-                    cellNew.textLabel?.text = model.name
+                    cellNew.availability.text = model.availability
+                    cellNew.make.text = model.car.make
+                    cellNew.model.text = model.car.model
+                    cellNew.name.text = model.name
+                    //cellNew.carPhoto.
                 } else {
                     print("error casting")
                 }
