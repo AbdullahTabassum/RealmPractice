@@ -14,7 +14,7 @@ class FancyCollectionCellView: UITableViewCell {
     
     var name: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 13.0)
+        label.font = UIFont.boldSystemFont(ofSize: 15.0)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
         label.numberOfLines = 0
@@ -23,7 +23,7 @@ class FancyCollectionCellView: UITableViewCell {
     
     var make: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 10.0)
+        label.font = UIFont.boldSystemFont(ofSize: 12.0)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
         label.numberOfLines = 0
@@ -32,7 +32,7 @@ class FancyCollectionCellView: UITableViewCell {
     
     var model: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 10.0)
+        label.font = UIFont.boldSystemFont(ofSize: 12.0)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
         label.numberOfLines = 0

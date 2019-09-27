@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import RxCocoa
 import RxSwift
+import SDWebImage
 
 class FancyCollectionView: UIView {
     private var fancyCarViewModel: FancyCarsViewModel
@@ -48,15 +49,17 @@ class FancyCollectionView: UIView {
         self.setUpViewLayout()
         self.setupPicker()
         self.setUpTableView()
+        
+        self.fancyCarViewModel.updateSortOrder(criteria: self.fancyCarViewModel.orderCriterias[0])
     }
     
     private func setupPicker() {
         Observable.just(fancyCarViewModel.orderCriterias).bind(to: pickerView.rx.itemTitles) { _, item in
             return "\(item)"
         }
+        .disposed(by: bag)
         
         pickerView.rx.itemSelected.subscribe(onNext: {[weak self] (row, value) in
-            NSLog("selected: \(row)")
             let crit = self?.fancyCarViewModel.orderCriterias[row]
             self?.fancyCarViewModel.updateSortOrder(criteria: crit ?? "make")
         }).disposed(by: bag)
@@ -65,11 +68,16 @@ class FancyCollectionView: UIView {
     private func setUpTableView() {
         self.fancyCarViewModel.fancyCars.asObservable().bind(to: self.tableView.rx.items(cellIdentifier: FancyCollectionCellView.identifier)) { index, model, cell  in
                 if let cellNew = cell as? FancyCollectionCellView {
+                    /// todo: move this setting code into the cellView class
                     cellNew.availability.text = model.availability
                     cellNew.make.text = model.car.make
                     cellNew.model.text = model.car.model
                     cellNew.name.text = model.name
-                    //cellNew.carPhoto.
+                    let imageURL = URL(string: model.car.img)!
+                    cellNew.carPhoto.sd_setShowActivityIndicatorView(true)
+                    cellNew.carPhoto.sd_setIndicatorStyle(.gray)
+                    cellNew.carPhoto.sd_setImage(with: imageURL)
+                    
                 } else {
                     print("error casting")
                 }
