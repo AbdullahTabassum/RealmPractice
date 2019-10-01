@@ -240,7 +240,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-FancyCars/Pods-FancyCars-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-FancyCars/Pods-FancyCars-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
@@ -267,7 +267,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FancyCars/Pods-FancyCars-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FancyCars/Pods-FancyCars-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9B52B7E97D350548A138E9C3 /* [CP] Check Pods Manifest.lock */ = {

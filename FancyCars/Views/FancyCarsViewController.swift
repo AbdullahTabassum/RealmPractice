@@ -17,21 +17,25 @@ class FancyCarsViewController: UIViewController {
     var vm : FancyCarsViewModel!
 
     override func loadView() {
-        /// this stuff should be injected
-        let screenSize = UIScreen.main.bounds;
-        let screenWidth = screenSize.width;
-        let screenHeight = screenSize.height;
-        let viewSize = CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight )
+
         
         
         modelManager = ModelManagerImpl(service: FancyCarServiceLocal(parser: ParserImpl()))
         vm = FancyCarsViewModelImpl(model: modelManager)
 
-        self.view =  FancyCollectionView(frame: viewSize, viewModel: vm)
+
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        /// this stuff should be injected
+        let screenSize = UIScreen.main.bounds;
+        let screenWidth = screenSize.width;
+        let screenHeight = screenSize.height;
+        let viewSize = CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight )
+
+        self.view =  FancyCollectionView(frame: viewSize, viewModel: vm)
     }
 
     override func didReceiveMemoryWarning() {

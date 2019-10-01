@@ -12,7 +12,9 @@ import RxSwift
 protocol FancyCarsViewModel {
     func updateSortOrder(criteria: String)
     var fancyCars: Variable<[FancyCars]>{get set}
+    var cartCount: Variable<Int>{get set}
     var orderCriterias: [String]{get}
+    func updateCartItems()
 }
 
 public extension Sequence {
@@ -27,6 +29,7 @@ struct FancyCars {
     init(car: Car) {
         self.car = car
     }
+
     var car: Car
     var isAvailable: Bool {
         return car.availability?.available == "Available"
@@ -43,17 +46,20 @@ struct FancyCars {
 class FancyCarsViewModelImpl: FancyCarsViewModel {
     var bag : DisposeBag = DisposeBag();
     var modelManager: ModelManager
+
+    private var count = 0
     
     init(model: ModelManager) {
         modelManager = model
-        modelManager.loadCars()
+        //modelManager.loadCars()
     }
     
     let orderCriterias = ["Name", "Availability"]
     
     private let orderCriteriaKeyPaths: [String: KeyPath<FancyCars, String>] = ["Name": \FancyCars.name, "Availability":\FancyCars.availability]
 
-    var fancyCars : Variable<[FancyCars]> = Variable<[FancyCars]>([])
+    var fancyCars: Variable<[FancyCars]> = Variable<[FancyCars]>([])
+    var cartCount: Variable<Int> = Variable<Int>(0)
     
     func updateSortOrder(criteria: String) {
         /// was initially aiming to do the sorting in the model with Realm, but it seems to be broken
@@ -71,6 +77,11 @@ class FancyCarsViewModelImpl: FancyCarsViewModel {
                     self?.fancyCars.value = fcs
             }).disposed(by: bag)
     }
+
+    func updateCartItems() {
+        self.cartCount.value = self.cartCount.value + 1
+    }
+
 }
 
 

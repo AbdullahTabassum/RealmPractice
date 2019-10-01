@@ -37,6 +37,16 @@ class FancyCollectionView: UIView {
         return tableView
     }()
 
+    var cartCount: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 15.0)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+        label.text = "test"
+        label.numberOfLines = 0
+        return label
+    }()
+
     required init(coder aDecoder: NSCoder) {
         fatalError("This class does not support NSCoding")
     }
@@ -63,6 +73,7 @@ class FancyCollectionView: UIView {
             let crit = self?.fancyCarViewModel.orderCriterias[row]
             self?.fancyCarViewModel.updateSortOrder(criteria: crit ?? "make")
         }).disposed(by: bag)
+
     }
     
     private func setUpTableView() {
@@ -77,11 +88,17 @@ class FancyCollectionView: UIView {
                     cellNew.carPhoto.sd_setShowActivityIndicatorView(true)
                     cellNew.carPhoto.sd_setIndicatorStyle(.gray)
                     cellNew.carPhoto.sd_setImage(with: imageURL)
-                    
+                    cellNew.vModel = self.fancyCarViewModel
+
                 } else {
                     print("error casting")
                 }
         }.disposed(by: bag)
+
+        self.fancyCarViewModel.cartCount.asObservable().bind(onNext: { [weak self] value in
+            print("came here")
+            self?.cartCount.text = String(value)
+        }).disposed(by: bag)
     }
     
     private func setUpViewLayout() {
@@ -95,6 +112,10 @@ class FancyCollectionView: UIView {
         tableView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: pickerView.topAnchor).isActive = true
+
+        self.addSubview(cartCount)
+        cartCount.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor).isActive = true
+        cartCount.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor).isActive = true
     }
 }
 

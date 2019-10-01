@@ -11,7 +11,7 @@ import UIKit
 
 class FancyCollectionCellView: UITableViewCell {
     static let identifier: String = "FancyCollectionCellView"
-    
+    var vModel: FancyCarsViewModel?
     var name: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 15.0)
@@ -57,15 +57,26 @@ class FancyCollectionCellView: UITableViewCell {
         photo.layer.borderWidth = 3
         return photo
     }()
-    
+
+    var buyButton: UIButton = {
+        let button:UIButton = UIButton()
+        button.backgroundColor = UIColor.blue
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+
     init(style: UITableViewCellStyle, reuseIdentifier: String?, customString: String) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         applyConstraints()
+
+        buyButton.rx.tap.bind { [weak self] in
+            print("button tapped")
+            self?.vModel?.updateCartItems()
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -96,10 +107,17 @@ class FancyCollectionCellView: UITableViewCell {
         carPhoto.bottomAnchor.constraint(equalTo: marginGuide.bottomAnchor, constant: -5.0).isActive = true
         carPhoto.widthAnchor.constraint(equalToConstant: 100).isActive = true
         carPhoto.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        
+
+        self.contentView.addSubview(buyButton)
+        buyButton.leadingAnchor.constraint(equalTo: carPhoto.trailingAnchor, constant: 10.0).isActive = true
+        buyButton.topAnchor.constraint(equalTo: carPhoto.topAnchor, constant: 0.0).isActive = true
+        buyButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        buyButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+
         self.contentView.addSubview(availability)
         availability.bottomAnchor.constraint(equalTo: carPhoto.bottomAnchor, constant: 0.0).isActive = true
         availability.leadingAnchor.constraint(equalTo: carPhoto.trailingAnchor, constant: 5.0).isActive = true
+
     }
 
 }
